@@ -200,13 +200,13 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
 
   const handleMenuItemClick = (index) => {
     const item = menuItems[index];
-    if (item === 'Permainan Baru') {
+    if (item === 'New Game') {
       handleNewGame();
-    } else if (item === 'Muat Game') {
+    } else if (item === 'Load Game') {
       handleLoadGameClick();
-    } else if (item === 'Pengaturan') {
+    } else if (item === 'Settings') {
       handleShowSettings();
-    } else if (item === 'Kredit') {
+    } else if (item === 'Credits') {
       handleShowCredits();
     }
   };
@@ -299,28 +299,42 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
 
 
   // Render orientation warning for portrait mode
-  if (!isLandscape) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-black px-6">
-        <div className="text-center max-w-md">
-          <div className="mb-8">
-            <svg className="w-24 h-24 mx-auto text-gray-600 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-            </svg>
-          </div>
-          <h2 className="text-2xl font-serif text-gray-400 mb-4 tracking-wide">
-            Rotate Your Device
-          </h2>
-          <p className="text-gray-500 text-base mb-2">
-            RE:MEMORY dirancang untuk dimainkan dalam mode landscape.
-          </p>
-          <p className="text-gray-600 text-sm italic">
-            Putar perangkat Anda untuk melanjutkan.
-          </p>
+ if (!isLandscape) {
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-black px-6">
+      <div className="text-center max-w-md">
+        <div className="mb-8">
+          <svg
+            className="w-24 h-24 mx-auto text-gray-600 animate-pulse"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
+              d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+            />
+          </svg>
         </div>
+
+        <h2 className="text-2xl font-serif text-gray-400 mb-4 tracking-wide">
+          Rotate Your Device
+        </h2>
+
+        <p className="text-gray-500 text-base mb-2">
+          RE:MEMORY is designed to be played in landscape mode.
+        </p>
+
+        <p className="text-gray-600 text-sm italic">
+          Please rotate your device to continue.
+        </p>
       </div>
-    );
-  }
+    </div>
+  );
+}
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-transparent relative overflow-hidden">
