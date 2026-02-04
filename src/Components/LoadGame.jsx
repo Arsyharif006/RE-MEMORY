@@ -107,7 +107,7 @@ const LoadGame = ({ onClose, onLoadSave }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/95">
+    <div className=" fixed inset-0 bg-transparent z-50">
 
       {/* ================= FIXED ARROWS (TIDAK IKUT BOX) ================= */}
       <div className="fixed right-6 top-1/2 -translate-y-1/2 z-50 flex flex-col items-center gap-6">
