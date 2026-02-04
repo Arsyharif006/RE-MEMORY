@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import Settings from './Settings';
 import Credits from './Credits';
 import noiseBackground from '../assets/bgame.mp4';
+import ReactIcon from '../assets/react.svg';
+import TailwindIcon from '../assets/tailwind.svg';
 
 const MainMenu = ({ onNewGame, onLoadGame }) => {
   const [hasSave] = useState(false); // Placeholder, bisa diaktifkan nanti
@@ -241,50 +243,56 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
     switch (transitionStep) {
       case 1:
         return (
-          <div className="max-w-3xl text-center animate-fadeIn px-8">
-            <h3 className="text-2xl lg:text-3xl font-serif text-red-500 mb-6 font-semibold tracking-wide">
-              ⚠ PERINGATAN ⚠
-            </h3>
-            <p className="text-gray-400 text-base lg:text-lg mb-4">
-              Game ini mengandung elemen horor psikologis, suara mengganggu, serta adegan yang dapat memicu kecemasan atau ketakutan ekstrem.
-            </p>
-            <p className="text-gray-400 text-base lg:text-lg">
-              Tidak disarankan bagi pemain di bawah 16 tahun.
-            </p>
-            <p className="text-red-500 text-sm lg:text-base font-semibold mt-6">
-              Dengan melanjutkan, Anda memahami dan menerima risiko yang terkait dengan pengalaman bermain ini.
-            </p>
+          <div className="text-center animate-fadeIn">
+            <div className="flex justify-center items-center gap-6 sm:gap-8">
+              <div className="flex flex-col items-center">
+                <img src={ReactIcon} alt="React" className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 text-cyan-400" style={{filter: 'invert(1) sepia(1) hue-rotate(180deg) saturate(2)'}} />
+                <p className="text-gray-300 text-sm sm:text-base mt-2 font-semibold">React</p>
+              </div>
+              <div className="flex flex-col items-center">
+                <img src={TailwindIcon} alt="Tailwind" className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20" style={{filter: 'invert(0.8) sepia(0.5) hue-rotate(200deg) saturate(1.5)'}} />
+                <p className="text-gray-300 text-sm sm:text-base mt-2 font-semibold">Tailwind</p>
+              </div>
+            </div>
           </div>
         );
       case 2:
         return (
-          <div className="max-w-2xl text-center tracking-wider animate-fadeIn">
-            <p className="text-gray-400 text-lg lg:text-xl mb-6 font-serif tracking-wider">
-              <span className="text-red-600">01001100</span>
-              <span className="text-gray-500">01001111</span>
-              <span className="text-red-600">01010011</span>
-              <span className="text-gray-500">01010100</span>
+          <div className="max-w-3xl text-center animate-fadeIn px-4">
+            <h3 className="text-lg sm:text-2xl lg:text-3xl font-serif text-red-500 mb-4 sm:mb-6 font-semibold tracking-wider animate-fadeIn">
+              ⚠ PERINGATAN ⚠
+            </h3>
+            <p className="text-gray-400 text-xs sm:text-base lg:text-lg mb-3 sm:mb-4 tracking-wider animate-fadeIn">
+              Game ini mengandung elemen horor psikologis, suara mengganggu, serta adegan yang dapat memicu kecemasan atau ketakutan ekstrem.
             </p>
-            <p className="text-gray-500 text-sm lg:text-base mt-6 font-light tracking-wider">
-              Setiap langkah menggema, semakin samar jalan kembali.
+            <p className="text-gray-400 text-xs sm:text-base lg:text-lg tracking-wider animate-fadeIn">
+              Tidak disarankan bagi pemain di bawah 16 tahun.
             </p>
           </div>
         );
       case 3:
         return (
-          <p className="text-gray-400 text-2xl lg:text-3xl font-serif tracking-wider animate-fadeIn">
-            Gunakan headphone untuk pengalaman terbaik 🎧
-          </p>
+          <div className="max-w-2xl text-center tracking-wider animate-fadeIn px-4">
+            <p className="text-gray-400 text-base sm:text-lg lg:text-xl mb-4 sm:mb-6 font-serif tracking-wider animate-fadeIn">
+              <span className="text-red-600 tracking-wider animate-fadeIn">01001100</span>
+              <span className="text-gray-500 tracking-wider animate-fadeIn">01001111</span>
+              <span className="text-red-600 tracking-wider animate-fadeIn">01010011</span>
+              <span className="text-gray-500 tracking-wider animate-fadeIn">01010100</span>
+            <p className="tracking-wider animate-fadeIn text-gray-500 text-md sm:text-md lg:text-md mt-4 sm:mt-6 font-light ">
+              Setiap langkah menggema, semakin samar jalan kembali.
+            </p>
+            </p>
+          </div>
         );
       case 4:
         return (
-          <p className="text-gray-400 text-2xl lg:text-3xl font-serif tracking-wider animate-fadeIn">
-            By: Muhammad Arya Ramadhan
+          <p className="text-gray-400 text-md sm:text-md lg:text-2xl font-serif tracking-wider animate-fadeIn px-4">
+            Gunakan headphone untuk pengalaman terbaik 🎧
           </p>
         );
       case 5:
         return (
-          <p className="text-gray-400 text-2xl lg:text-3xl font-serif tracking-wider animate-fadeIn">
+          <p className="text-gray-400 text-md sm:text-2xl lg:text-2xl font-serif tracking-wider animate-fadeIn">
             Enjoy.
           </p>
         );
@@ -311,7 +319,7 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
             Rotate Your Device
           </h2>
           <p className="text-gray-500 text-base mb-2">
-            Silent Echo dirancang untuk dimainkan dalam mode landscape.
+            RE:MEMORY dirancang untuk dimainkan dalam mode landscape.
           </p>
           <p className="text-gray-600 text-sm italic">
             Putar perangkat Anda untuk melanjutkan.
@@ -379,7 +387,7 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
       <div className={`w-full h-full flex items-center justify-center relative z-5 ${isTransitioning || showCredits || showSettings ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500`}>
         <div className="grid grid-cols-2 gap-2 sm:gap-4 md:gap-8 lg:gap-16 w-full max-w-6xl px-2 sm:px-4 md:px-8 lg:px-12">
           {/* Left side - Title and tagline */}
-          <div className="flex flex-col justify-center items-start pl-2 sm:pl-7 md:pl-7 lg:pl-1 border-r border-gray-800">
+          <div className="flex flex-col justify-center items-start pl-2 sm:pl-8 md:pl-8 lg:pl-1 border-r border-gray-800">
             <h1 className={`text-xl sm:text-2xl md:text-5xl lg:text-6xl font-extrabold font-serif text-gray-400 mb-1 md:mb-4 tracking-wider ${titleFlicker ? 'opacity-80' : ''} transition-all duration-300`}>
               RE:MEMORY
             </h1>
