@@ -379,7 +379,7 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
       <div className={`w-full h-full flex items-center justify-center relative z-5 ${isTransitioning || showCredits || showSettings ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500`}>
         <div className="grid grid-cols-2 gap-2 sm:gap-4 md:gap-8 lg:gap-16 w-full max-w-6xl px-2 sm:px-4 md:px-8 lg:px-12">
           {/* Left side - Title and tagline */}
-          <div className="flex flex-col justify-center items-start pl-2 sm:pl-4 md:pl-4 lg:pl-1 border-r border-gray-800">
+          <div className="flex flex-col justify-center items-start pl-10 sm:pl-4 md:pl-4 lg:pl-1 border-r border-gray-800">
             <h1 className={`text-xl sm:text-2xl md:text-5xl lg:text-6xl font-extrabold font-serif text-gray-400 mb-1 md:mb-4 tracking-wider ${titleFlicker ? 'opacity-80' : ''} transition-all duration-300`}>
               RE:MEMORY
             </h1>

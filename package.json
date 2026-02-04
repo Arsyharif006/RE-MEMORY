@@ -4,8 +4,6 @@
   "version": "0.0.0",
   "type": "module",
   "homepage": "https://Arsyharif006.github.io/RE-MEMORY",
-
-
   "scripts": {
     "build": "vite build",
     "deploy": "gh-pages -d dist",
