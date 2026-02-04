@@ -16,7 +16,7 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
   const [playLightning, setPlayLightning] = useState(false);
   const [isLandscape, setIsLandscape] = useState(true);
   const [selectedMenuIndex, setSelectedMenuIndex] = useState(0);
-  const menuItems = ['Permainan Baru', 'Muat Game', 'Pengaturan', 'Kredit'];
+  const menuItems = ['New Game', 'Load Game', 'Settings', 'Credits'];
   const menuRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
   const lightningTimeoutRef = useRef(null);
@@ -211,67 +211,92 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
     }
   };
 
-  const renderTransitionMessage = () => {
-    switch (transitionStep) {
-      case 1:
-        return (
-          <div className="text-center animate-fadeIn">
-            <div className="flex justify-center items-center gap-6 sm:gap-8">
-              <div className="flex flex-col items-center">
-                <img src={ReactIcon} alt="React" className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 text-cyan-400" style={{filter: 'invert(1) sepia(1) hue-rotate(180deg) saturate(2)'}} />
-                <p className="text-gray-300 text-sm sm:text-base mt-2 font-semibold">React</p>
-              </div>
-              <div className="flex flex-col items-center">
-                <img src={TailwindIcon} alt="Tailwind" className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20" style={{filter: 'invert(0.8) sepia(0.5) hue-rotate(200deg) saturate(1.5)'}} />
-                <p className="text-gray-300 text-sm sm:text-base mt-2 font-semibold">Tailwind</p>
-              </div>
+ const renderTransitionMessage = () => {
+  switch (transitionStep) {
+    case 1:
+      return (
+        <div className="text-center animate-fadeIn">
+          <div className="flex justify-center items-center gap-6 sm:gap-8">
+            <div className="flex flex-col items-center">
+              <img
+                src={ReactIcon}
+                alt="React"
+                className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 text-cyan-400"
+                style={{ filter: 'invert(1) sepia(1) hue-rotate(180deg) saturate(2)' }}
+              />
+              <p className="text-gray-300 text-sm sm:text-base mt-2 font-semibold">
+                React
+              </p>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <img
+                src={TailwindIcon}
+                alt="Tailwind"
+                className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20"
+                style={{ filter: 'invert(0.8) sepia(0.5) hue-rotate(200deg) saturate(1.5)' }}
+              />
+              <p className="text-gray-300 text-sm sm:text-base mt-2 font-semibold">
+                Tailwind
+              </p>
             </div>
           </div>
-        );
-      case 2:
-        return (
-          <div className="max-w-3xl text-center animate-fadeIn px-4">
-            <h3 className="text-lg sm:text-2xl lg:text-3xl font-serif text-red-500 mb-4 sm:mb-6 font-semibold tracking-wider animate-fadeIn">
-              ⚠ PERINGATAN ⚠
-            </h3>
-            <p className="text-gray-400 text-xs sm:text-base lg:text-lg mb-3 sm:mb-4 tracking-wider animate-fadeIn">
-              Game ini mengandung elemen horor psikologis, suara mengganggu, serta adegan yang dapat memicu kecemasan atau ketakutan ekstrem.
-            </p>
-            <p className="text-gray-400 text-xs sm:text-base lg:text-lg tracking-wider animate-fadeIn">
-              Tidak disarankan bagi pemain di bawah 16 tahun.
-            </p>
-          </div>
-        );
-      case 3:
-        return (
-          <div className="max-w-2xl text-center tracking-wider animate-fadeIn px-4">
-            <p className="text-gray-400 text-base sm:text-lg lg:text-xl mb-4 sm:mb-6 font-serif tracking-wider animate-fadeIn">
-              <span className="text-red-600 tracking-wider animate-fadeIn">01001100</span>
-              <span className="text-gray-500 tracking-wider animate-fadeIn">01001111</span>
-              <span className="text-red-600 tracking-wider animate-fadeIn">01010011</span>
-              <span className="text-gray-500 tracking-wider animate-fadeIn">01010100</span>
-            <p className="tracking-wider animate-fadeIn text-gray-500 text-md sm:text-md lg:text-md mt-4 sm:mt-6 font-light ">
-              Setiap langkah menggema, semakin samar jalan kembali.
-            </p>
-            </p>
-          </div>
-        );
-      case 4:
-        return (
-          <p className="text-gray-400 text-md sm:text-md lg:text-2xl font-serif tracking-wider animate-fadeIn px-4">
-            Gunakan headphone untuk pengalaman terbaik 🎧
+        </div>
+      );
+
+    case 2:
+      return (
+        <div className="max-w-3xl text-center animate-fadeIn px-4">
+          <h3 className="text-lg sm:text-2xl lg:text-3xl font-serif text-red-500 mb-4 sm:mb-6 font-semibold tracking-wider animate-fadeIn">
+            ⚠ WARNING ⚠
+          </h3>
+
+          <p className="text-gray-400 text-xs sm:text-base lg:text-lg mb-3 sm:mb-4 tracking-wider animate-fadeIn">
+            This game contains elements of psychological horror, disturbing sounds,
+            and scenes that may trigger anxiety or intense fear.
           </p>
-        );
-      case 5:
-        return (
-          <p className="text-gray-400 text-md sm:text-2xl lg:text-2xl font-serif tracking-wider animate-fadeIn">
-            Enjoy.
+
+          <p className="text-gray-400 text-xs sm:text-base lg:text-lg tracking-wider animate-fadeIn">
+            Not recommended for players under the age of 16.
           </p>
-        );
-      default:
-        return null;
-    }
-  };
+        </div>
+      );
+
+    case 3:
+      return (
+        <div className="max-w-2xl text-center tracking-wider animate-fadeIn px-4">
+          <p className="text-gray-400 text-base sm:text-lg lg:text-xl mb-4 sm:mb-6 font-serif tracking-wider animate-fadeIn">
+            <span className="text-red-600 tracking-wider animate-fadeIn">01001100</span>
+            <span className="text-gray-500 tracking-wider animate-fadeIn">01001111</span>
+            <span className="text-red-600 tracking-wider animate-fadeIn">01010011</span>
+            <span className="text-gray-500 tracking-wider animate-fadeIn">01010100</span>
+          </p>
+
+          <p className="tracking-wider animate-fadeIn text-gray-500 text-md sm:text-md lg:text-md mt-4 sm:mt-6 font-light">
+            Every step echoes, the path back growing ever more distant.
+          </p>
+        </div>
+      );
+
+    case 4:
+      return (
+        <p className="text-gray-400 text-md sm:text-md lg:text-2xl font-serif tracking-wider animate-fadeIn px-4">
+          Use headphones for the best experience 🎧
+        </p>
+      );
+
+    case 5:
+      return (
+        <p className="text-gray-400 text-md sm:text-2xl lg:text-2xl font-serif tracking-wider animate-fadeIn">
+          Enjoy.
+        </p>
+      );
+
+    default:
+      return null;
+  }
+};
+
 
   // Render orientation warning for portrait mode
   if (!isLandscape) {
