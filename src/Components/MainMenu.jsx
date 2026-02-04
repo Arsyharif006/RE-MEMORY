@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import Settings from './Settings';
 import Credits from './Credits';
-import noiseBackground from '../assets/bgame.mp4';
 import ReactIcon from '../assets/react.svg';
 import TailwindIcon from '../assets/tailwind.svg';
 
@@ -20,7 +19,6 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
   const [isMobile, setIsMobile] = useState(false);
   const lightningTimeoutRef = useRef(null);
   const lightningVideoRef = useRef(null);
-  const bgVideoRef = useRef(null);
 
   // Check if device is in landscape mode
   useEffect(() => {
@@ -156,15 +154,6 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
       }
     }
   }, [isTransitioning, showCredits]);
-
-  // Effect to handle background video playback
-  useEffect(() => {
-    if (bgVideoRef.current) {
-      bgVideoRef.current.play().catch(() => {
-        // Video play failed, just continue
-      });
-    }
-  }, []);
 
   const setupRandomLightning = () => {
     const triggerLightning = () => {
@@ -330,49 +319,7 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-black relative overflow-hidden">
-      {/* Background Video */}
-      <video
-        ref={bgVideoRef}
-        className="absolute inset-0 w-full h-full object-cover"
-        autoPlay
-        loop
-        muted
-        playsInline
-      >
-        <source src={noiseBackground} type="video/mp4" />
-      </video>
-
-      {/* Dark Overlay for Video */}
-      <div className="absolute inset-0 bg-black opacity-70 pointer-events-none"></div>
-
-      {/* Noise Overlay */}
-      <div className="absolute inset-0 opacity-10 pointer-events-none">
-        <div className="w-full h-full bg-noise"></div>
-      </div>
-
-      {/* Lightning Video Overlay Placeholder - Disabled */}
-      {/* <div className="absolute inset-0 pointer-events-none z-1">
-        <div 
-          ref={lightningVideoRef}
-          className={`absolute inset-0 w-full h-full bg-white transition-opacity duration-200 ${playLightning ? 'opacity-30' : 'opacity-0'}`}
-        />
-      </div> */}
-
-      {/* Fog Animation */}
-      <div className="absolute inset-0 opacity-30 pointer-events-none">
-        <div className="w-full h-full bg-gradient-to-r from-transparent via-gray-800 to-transparent animate-pulse"></div>
-      </div>
-
-      {/* Transition Overlay */}
-      {isTransitioning && (
-        <div className="absolute inset-0 bg-black z-10 animate-fadeIn pointer-events-none">
-          <div className="absolute inset-0 flex items-center justify-center text-center px-8">
-            {renderTransitionMessage()}
-          </div>
-        </div>
-      )}
-
+    <div className="flex items-center justify-center min-h-screen bg-transparent relative overflow-hidden">
       {/* Settings Screen */}
       {showSettings && (
         <Settings onClose={handleCloseSettings} />
@@ -383,11 +330,20 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
         <Credits onClose={handleCloseCredits} />
       )}
 
+      {/* Transition Overlay */}
+      {isTransitioning && (
+        <div className="absolute inset-0 bg-black z-10 animate-fadeIn pointer-events-none">
+          <div className="absolute inset-0 flex items-center justify-center text-center px-8">
+            {renderTransitionMessage()}
+          </div>
+        </div>
+      )}
+
       {/* Menu content - Landscape optimized layout */}
-      <div className={`w-full h-full flex items-center justify-center relative z-5 ${isTransitioning || showCredits || showSettings ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500`}>
+      <div className={`w-full h-full flex items-center justify-center relative z-5 ${isTransitioning || showCredits || showSettings ? 'opacity-0' : 'opacity-100'} ${isTransitioning ? 'transition-opacity duration-500' : ''}`}>
         <div className="grid grid-cols-2 gap-2 sm:gap-4 md:gap-8 lg:gap-16 w-full max-w-6xl px-2 sm:px-4 md:px-8 lg:px-12">
           {/* Left side - Title and tagline */}
-          <div className="flex flex-col justify-center items-start pl-2 sm:pl-8 md:pl-8 lg:pl-1 border-r border-gray-800">
+          <div className="flex flex-col justify-center items-start pl-1 sm:pl-10 md:pl-10 lg:pl-1 border-r border-gray-800">
             <h1 className={`text-xl sm:text-2xl md:text-5xl lg:text-6xl font-extrabold font-serif text-gray-400 mb-1 md:mb-4 tracking-wider ${titleFlicker ? 'opacity-80' : ''} transition-all duration-300`}>
               RE:MEMORY
             </h1>
@@ -442,11 +398,6 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
 
         .animate-fadeIn {
           animation: fadeIn 1s ease-in-out;
-        }
-
-        .bg-noise {
-          background-image: url('${noiseBackground}');
-          background-repeat: repeat;
         }
       `}</style>
     </div>
