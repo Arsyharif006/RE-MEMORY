@@ -1,16 +1,18 @@
 import { useState, useEffect, useRef } from 'react';
 import Settings from './Settings';
 import Credits from './Credits';
+import LoadGame from './LoadGame';
 import ReactIcon from '../assets/react.svg';
 import TailwindIcon from '../assets/tailwind.svg';
 
 const MainMenu = ({ onNewGame, onLoadGame }) => {
-  const [hasSave] = useState(false); // Placeholder, bisa diaktifkan nanti
+  const [hasSave] = useState(true); // Set to true since we have dummy saves
   const [titleFlicker, setTitleFlicker] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [transitionStep, setTransitionStep] = useState(0);
   const [showCredits, setShowCredits] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showLoadGame, setShowLoadGame] = useState(false);
   const [playLightning, setPlayLightning] = useState(false);
   const [isLandscape, setIsLandscape] = useState(true);
   const [selectedMenuIndex, setSelectedMenuIndex] = useState(0);
@@ -49,7 +51,7 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
   // Handle menu wheel scroll (desktop only)
   useEffect(() => {
     const handleWheel = (e) => {
-      if (!isMobile && !isTransitioning && !showCredits && !showSettings && menuRef.current) {
+      if (!isMobile && !isTransitioning && !showCredits && !showSettings && !showLoadGame && menuRef.current) {
         e.preventDefault();
         const direction = e.deltaY > 0 ? 1 : -1;
         setSelectedMenuIndex(prev => {
@@ -63,12 +65,12 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
 
     window.addEventListener('wheel', handleWheel, { passive: false });
     return () => window.removeEventListener('wheel', handleWheel);
-  }, [isTransitioning, showCredits, showSettings, menuItems.length, isMobile]);
+  }, [isTransitioning, showCredits, showSettings, showLoadGame, menuItems.length, isMobile]);
 
   // Handle keyboard navigation (desktop only)
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (!isMobile && !isTransitioning && !showCredits && !showSettings) {
+      if (!isMobile && !isTransitioning && !showCredits && !showSettings && !showLoadGame) {
         if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
           e.preventDefault();
           const direction = e.key === 'ArrowDown' ? 1 : -1;
@@ -87,27 +89,7 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isTransitioning, showCredits, showSettings, menuItems.length, isMobile, selectedMenuIndex]);
-
-  useEffect(() => {
-    // Check for saved game (placeholder)
-    // setHasSave(false); // TODO: Implement save check functionality
-
-    // Title flicker effect
-    const flickerInterval = setInterval(() => {
-      setTitleFlicker(prev => !prev);
-    }, 3000 + Math.random() * 3000);
-
-    // Set up random lightning flashes
-    setupRandomLightning();
-
-    return () => {
-      clearInterval(flickerInterval);
-      if (lightningTimeoutRef.current) {
-        clearTimeout(lightningTimeoutRef.current);
-      }
-    };
-  }, []);
+  }, [isTransitioning, showCredits, showSettings, showLoadGame, menuItems.length, isMobile, selectedMenuIndex]);
 
   useEffect(() => {
     // Title flicker effect
@@ -129,12 +111,6 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
   // Effect to handle playing the lightning video when triggered
   useEffect(() => {
     if (playLightning && lightningVideoRef.current) {
-      // TODO: Implement lightning video playback
-      // lightningVideoRef.current.currentTime = 0;
-      // lightningVideoRef.current.play().catch(() => {
-      //   // Video play failed, just continue
-      // });
-      
       setTimeout(() => {
         setPlayLightning(false);
       }, 3000);
@@ -143,7 +119,7 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
 
   // Effect to stop scheduling new lightning events when transitioning or in credits
   useEffect(() => {
-    if (isTransitioning || showCredits) {
+    if (isTransitioning || showCredits || showLoadGame) {
       if (lightningTimeoutRef.current) {
         clearTimeout(lightningTimeoutRef.current);
         lightningTimeoutRef.current = null;
@@ -153,11 +129,11 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
         setupRandomLightning();
       }
     }
-  }, [isTransitioning, showCredits]);
+  }, [isTransitioning, showCredits, showLoadGame]);
 
   const setupRandomLightning = () => {
     const triggerLightning = () => {
-      if (!isTransitioning && !showCredits) {
+      if (!isTransitioning && !showCredits && !showLoadGame) {
         setPlayLightning(true);
       }
 
@@ -169,13 +145,20 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
     lightningTimeoutRef.current = setTimeout(triggerLightning, initialDelay);
   };
 
-  // Credits scrolling effect moved to Credits component
+  const handleLoadGameClick = () => {
+    setShowLoadGame(true);
+  };
 
-  const handleLoadGame = () => {
+  const handleCloseLoadGame = () => {
+    setShowLoadGame(false);
+  };
+
+  const handleLoadSave = (saveData) => {
+    setShowLoadGame(false);
     startTransition();
     setTimeout(() => {
       if (onLoadGame) {
-        onLoadGame({});
+        onLoadGame(saveData);
       }
     }, 12000);
   };
@@ -220,7 +203,7 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
     if (item === 'Permainan Baru') {
       handleNewGame();
     } else if (item === 'Muat Game') {
-      handleLoadGame();
+      handleLoadGameClick();
     } else if (item === 'Pengaturan') {
       handleShowSettings();
     } else if (item === 'Kredit') {
@@ -290,10 +273,6 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
     }
   };
 
-  const renderCredits = () => {
-    // Credits component moved to separate file
-  };
-
   // Render orientation warning for portrait mode
   if (!isLandscape) {
     return (
@@ -330,6 +309,11 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
         <Credits onClose={handleCloseCredits} />
       )}
 
+      {/* Load Game Screen */}
+      {showLoadGame && (
+        <LoadGame onClose={handleCloseLoadGame} onLoadSave={handleLoadSave} />
+      )}
+
       {/* Transition Overlay */}
       {isTransitioning && (
         <div className="absolute inset-0 bg-black z-10 animate-fadeIn pointer-events-none">
@@ -340,7 +324,7 @@ const MainMenu = ({ onNewGame, onLoadGame }) => {
       )}
 
       {/* Menu content - Landscape optimized layout */}
-      <div className={`w-full h-full flex items-center justify-center relative z-5 ${isTransitioning || showCredits || showSettings ? 'opacity-0' : 'opacity-100'} ${isTransitioning ? 'transition-opacity duration-500' : ''}`}>
+      <div className={`w-full h-full flex items-center justify-center relative z-5 ${isTransitioning || showCredits || showSettings || showLoadGame ? 'opacity-0' : 'opacity-100'} ${isTransitioning ? 'transition-opacity duration-500' : ''}`}>
         <div className="grid grid-cols-2 gap-2 sm:gap-4 md:gap-8 lg:gap-16 w-full max-w-6xl px-2 sm:px-4 md:px-8 lg:px-12">
           {/* Left side - Title and tagline */}
           <div className="flex flex-col justify-center items-start pl-1 sm:pl-10 md:pl-10 lg:pl-1 border-r border-gray-800">
